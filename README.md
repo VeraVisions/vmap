@@ -29,6 +29,27 @@ You want to pass `-basedir /path/to/game/root` and `-game` arguments to specify 
 
 `./vmap -basedir "/home/user/nuclide-sdk/" -game "base" test_sun`
 
+### Material definitions
+
+As stated, we look alongside the textures for material definitions.
+For example, if a .map file references `measure/floor` the compiler will look
+at `textures/measure/floor.mat` within any `-game` directories for the exact material description.
+
+The .mat file in question looks something like this:
+
+```
+{
+	program lightmapped
+	diffusemap "textures/measure/floor.tga"
+}
+```
+
+The `program` line tells the engine which SPIR-V/GLSL/HLSL pixel shader program to use, the compiler ignores that. The `diffusemap` key is read in by the compiler to figure out which texture to load for its color information (used by the `-light` switch) and its size.
+
+You can also use Q3A style .shader syntax in these, but set at least a `qer_editorImage` pointing to a valid texture for valid dimensions.
+
+[There's material directives specific to vmap, which you can see here.](https://developer.vera-visions.com/d6/d06/mat_vmap.html). Support for the q3map2 equivalents (where applicable) has been preserved, so you won't need to migrate.
+
 ## Compiling
 To compile on a standard GNU/Linux system:
 `make`
