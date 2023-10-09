@@ -1,221 +1,157 @@
-# WorldSpawn Makefile 
+# vmap Makefile 
 
-GTK_CFLAGS=$(shell pkg-config --cflags gtk+-2.0)
-GTK_LDFLAGS=$(shell pkg-config --libs gtk+-2.0)
+# ws libs vmap uses
+LIBOBJS=../libs/libddslib.a \
+	../libs/libetclib.a \
+	../libs/libfilematch.a \
+	../libs/libl_net.a \
+	../libs/libmathlib.a \
+	../libs/libpicomodel.a
 
 GLIB_CFLAGS=$(shell pkg-config --cflags glib-2.0)
-GLIB_LDLAGS=$(shell pkg-config --libs glib-2.0)
+GLIB_LDFLAGS=$(shell pkg-config --libs glib-2.0)
 
 XML_CFLAGS=$(shell pkg-config --cflags libxml-2.0)
 XML_LDFLAGS=$(shell pkg-config --libs libxml-2.0)
 
-GLEXT_CFLAGS=$(shell pkg-config --cflags gtkglext-1.0)
-GLEXT_LDFLAGS=$(shell pkg-config --libs gtkglext-1.0)
+MINIZIP_CFLAGS=$(shell pkg-config --cflags minizip)
+MINIZIP_LDFLAGS=$(shell pkg-config --libs minizip)
 
-PANGO_CFLAGS=$(shell pkg-config --cflags pango)
-PANGO_LDFLAGS=$(shell pkg-config --libs pango)
+JPEG_CFLAGS=$(shell pkg-config --cflags libjpeg)
+JPEG_LDFLAGS=$(shell pkg-config --libs libjpeg)
 
-PANGOFT2_CFLAGS=$(shell pkg-config --cflags pangoft2)
-PANGOFT2_LDFLAGS=$(shell pkg-config --libs pangoft2)
+PNG_CFLAGS=$(shell pkg-config --cflags libpng)
+PNG_LDFLAGS=$(shell pkg-config --libs libpng)
 
-WS_LIBS= ../libs/libcmdlib.a \
-	../libs/libcontainer.a \
-	../libs/libddslib.a \
-	../libs/libdebugging.a \
-	../libs/libetclib.a \
-	../libs/libgeneric.a \
-	../libs/libgtkutil.a \
-	../libs/libl_net.a \
-	../libs/libmath.a \
-	../libs/libmathlib.a \
-	../libs/libmodulesystem.a \
-	../libs/libos.a \
-	../libs/libpicomodel.a \
-	../libs/libprofile.a \
-	../libs/libscript.a \
-	../libs/libsignal.a \
-	../libs/libsplines.a \
-	../libs/libstream.a \
-	../libs/libstring.a \
-	../libs/libuilib.a \
-	../libs/libxmllib.a
+VMAP_CFLAGS=$(CFLAGS) $(GLIB_CFLAGS) $(XML_CFLAGS) $(MINIZIP_CFLAGS) $(JPEG_CFLAGS) $(PNG_CFLAGS) -I../include  -I../common -I../libs
+VMAP_LDFLAGS=$(LDFLAGS) -lm -lpthread -L../lib $(GLIB_LDFLAGS) $(XML_LDFLAGS) $(MINIZIP_LDFLAGS) $(JPEG_LDFLAGS) $(PNG_LDFLAGS)
 
-WS_CFLAGS=$(CFLAGS) $(GTK_CFLAGS) $(XML_CFLAGS) $(GLEXT_CFLAGS) -I../include -I../libs -DGTK_TARGET=2 $(WS_VERSION)
-WS_LDFLAGS=$(LDFLAGS) -lm $(GTK_LDFLAGS) $(GLIB_LDFLAGS) $(XML_LDFLAGS) $(PANGO_LDFLAGS) $(PANGOFT2_LDFLAGS) $(GLEXT_LDFLAGS) -L../lib
+DO_CC=$(CC) $(VMAP_CFLAGS) -o $@ -c $<
 
-DO_CXX=$(CXX) $(WS_CFLAGS) -o $@ -c $<
+.c.o:
+	$(DO_CC)
 
-.cpp.o:
-	$(DO_CXX)
-
-WS_OBJS = \
-	autosave.o \
+VMAP_OBJS = \
+	../common/cmdlib.o \
+	../common/imagelib.o \
+	../common/inout.o \
+	../common/jpeg.o \
+	../common/md4.o \
+	../common/mutex.o \
+	../common/polylib.o \
+	../common/scriplib.o \
+	../common/matlib.o \
+	../common/threads.o \
+	../common/vfs.o \
 	brush.o \
 	brush_primit.o \
-	brushmanip.o \
-	brushmodule.o \
-	brushnode.o \
-	brushtokens.o \
-	brushxml.o \
-	build.o \
-	camwindow.o \
-	commands.o \
-	console.o \
-	csg.o \
-	dialog.o \
-	eclass.o \
-	eclass_def.o \
-	eclass_doom3.o \
-	eclass_fgd.o \
-	eclass_xml.o \
-	entity.o \
-	entityinspector.o \
-	entitylist.o \
-	environment.o \
-	error.o \
-	feedback.o \
-	filetypes.o \
-	filters.o \
-	findtexturedialog.o \
-	glwidget.o \
-	grid.o \
-	groupdialog.o \
-	gtkdlgs.o \
-	gtkmisc.o \
+	bsp.o \
+	bsp_analyze.o \
+	bsp_info.o \
+	bsp_scale.o \
+	bspfile_abstract.o \
+	bspfile_ibsp.o \
+	bspfile_rbsp.o \
+	convert_ase.o \
+	convert_bsp.o \
+	convert_map.o \
+	convert_obj.o \
+	decals.o \
+	exportents.o \
+	facebsp.o \
+	fixaas.o \
+	fog.o \
 	help.o \
 	image.o \
+	leakfile.o \
+	light.o \
+	light_bounce.o \
+	light_trace.o \
+	light_ydnar.o \
+	lightmaps_ydnar.o \
 	main.o \
-	mainframe.o \
-	multimon.o \
 	map.o \
-	mru.o \
-	nullmodel.o \
-	parse.o \
+	mesh.o \
+	model.o \
 	patch.o \
-	patchdialog.o \
-	patchmanip.o \
-	patchmodule.o \
-	plugin.o \
-	pluginapi.o \
-	pluginmanager.o \
-	pluginmenu.o \
-	plugintoolbar.o \
-	points.o \
-	preferencedictionary.o \
-	preferences.o \
-	qe3.o \
-	qgl.o \
-	referencecache.o \
-	renderer.o \
-	renderstate.o \
-	scenegraph.o \
-	select.o \
-	selection.o \
-	server.o \
+	path_init.o \
+	portals.o \
+	prtfile.o \
 	shaders.o \
-	sockets.o \
-	stacktrace.o \
-	surfacedialog.o \
-	texmanip.o \
-	textureentry.o \
-	textures.o \
-	texwindow.o \
-	timer.o \
-	treemodel.o \
-	undo.o \
-	url.o \
-	view.o \
-	watchbsp.o \
-	winding.o \
-	windowobservers.o \
-	xmlstuff.o \
-	xywindow.o
+	surface.o \
+	surface_extra.o \
+	surface_foliage.o \
+	surface_fur.o \
+	surface_meta.o \
+	tjunction.o \
+	tree.o \
+	vis.o \
+	visflow.o \
+	writebsp.o
 
 # binary target
-../build/worldspawn: $(WS_OBJS)
-	$(CXX) -o $@ $(WS_OBJS) $(WS_LIBS) $(WS_LDFLAGS)
+../vmap: $(VMAP_OBJS)
+	$(CXX) -o $@ $(VMAP_OBJS) $(LIBOBJS) $(VMAP_LDFLAGS)
 
 clean:
-	-rm -f *.o ../build/worldspawn
+	-rm -f ./../common/*.o
+	-rm -f ./*.o
+	-rm -f ../vmap
 
 # object files
-autosave.o: autosave.cpp autosave.h
-brush.o: brush.cpp brush.h
-brush_primit.o: brush_primit.cpp brush_primit.h
-brushmanip.o: brushmanip.cpp brushmanip.h
-brushmodule.o: brushmodule.cpp brushmodule.h
-brushnode.o: brushnode.cpp brushnode.h
-brushtokens.o: brushtokens.cpp brushtokens.h
-brushxml.o: brushxml.cpp brushxml.h
-build.o: build.cpp build.h
-camwindow.o: camwindow.cpp camwindow.h
-commands.o: commands.cpp commands.h
-console.o: console.cpp console.h
-csg.o: csg.cpp csg.h
-dialog.o: dialog.cpp dialog.h
-eclass.o: eclass.cpp eclass.h
-eclass_def.o: eclass_def.cpp eclass_def.h
-eclass_doom3.o: eclass_doom3.cpp eclass_doom3.h
-eclass_fgd.o: eclass_fgd.cpp eclass_fgd.h
-eclass_xml.o: eclass_xml.cpp eclass_xml.h
-entity.o: entity.cpp entity.h
-entityinspector.o: entityinspector.cpp entityinspector.h
-entitylist.o: entitylist.cpp entitylist.h
-environment.o: environment.cpp environment.h
-error.o: error.cpp error.h
-feedback.o: feedback.cpp feedback.h
-filetypes.o: filetypes.cpp filetypes.h
-filters.o: filters.cpp filters.h
-findtexturedialog.o: findtexturedialog.cpp findtexturedialog.h
-glwidget.o: glwidget.cpp glwidget.h
-grid.o: grid.cpp grid.h
-groupdialog.o: groupdialog.cpp groupdialog.h
-gtkdlgs.o: gtkdlgs.cpp gtkdlgs.h
-gtkmisc.o: gtkmisc.cpp gtkmisc.h
-help.o: help.cpp help.h
-image.o: image.cpp image.h
-main.o: main.cpp main.h
-mainframe.o: mainframe.cpp mainframe.h
-map.o: map.cpp map.h
-mru.o: mru.cpp mru.h
-nullmodel.o: nullmodel.cpp nullmodel.h
-parse.o: parse.cpp parse.h
-patch.o: patch.cpp patch.h
-patchdialog.o: patchdialog.cpp patchdialog.h
-patchmanip.o: patchmanip.cpp patchmanip.h
-patchmodule.o: patchmodule.cpp patchmodule.h
-plugin.o: plugin.cpp plugin.h
-pluginapi.o: pluginapi.cpp pluginapi.h
-pluginmanager.o: pluginmanager.cpp pluginmanager.h
-pluginmenu.o: pluginmenu.cpp pluginmenu.h
-plugintoolbar.o: plugintoolbar.cpp plugintoolbar.h
-points.o: points.cpp points.h
-preferencedictionary.o: preferencedictionary.cpp preferencedictionary.h
-preferences.o: preferences.cpp preferences.h
-qe3.o: qe3.cpp qe3.h
-qgl.o: qgl.cpp qgl.h
-referencecache.o: referencecache.cpp referencecache.h
-renderer.o: renderer.cpp renderer.h
-renderstate.o: renderstate.cpp renderstate.h
-scenegraph.o: scenegraph.cpp scenegraph.h
-select.o: select.cpp select.h
-selection.o: selection.cpp selection.h
-server.o: server.cpp server.h
-shaders.o: shaders.cpp shaders.h
-sockets.o: sockets.cpp sockets.h
-stacktrace.o: stacktrace.cpp stacktrace.h
-surfacedialog.o: surfacedialog.cpp surfacedialog.h
-texmanip.o: texmanip.cpp texmanip.h
-textureentry.o: textureentry.cpp textureentry.h
-textures.o: textures.cpp textures.h
-texwindow.o: texwindow.cpp texwindow.h
-timer.o: timer.cpp timer.h
-treemodel.o: treemodel.cpp treemodel.h
-undo.o: undo.cpp undo.h
-url.o: url.cpp url.h
-view.o: view.cpp view.h
-watchbsp.o: watchbsp.cpp watchbsp.h
-winding.o: winding.cpp winding.h
-windowobservers.o: windowobservers.cpp windowobservers.h
-xmlstuff.o: xmlstuff.cpp xmlstuff.h
-xywindow.o: xywindow.cpp xywindow.h
+../common/cmdlib.o: ../common/cmdlib.c ../common/cmdlib.h
+../common/imagelib.o: ../common/imagelib.c ../common/imagelib.h
+../common/inout.o: ../common/inout.c ../common/inout.h
+../common/jpeg.o: ../common/jpeg.c
+../common/md4.o: ../common/md4.c ../common/md4.h
+../common/mutex.o: ../common/mutex.c ../common/mutex.h
+../common/polylib.o: ../common/polylib.c ../common/polylib.h
+../common/scriplib.o: ../common/scriplib.c ../common/scriplib.h
+../common/matlib.o: ../common/matlib.c ../common/matlib.h
+../common/threads.o: ../common/threads.c
+../common/vfs.o: ../common/vfs.c ../common/vfs.h
+brush.o: brush.c 
+brush_primit.o: brush_primit.c
+bsp.o: bsp.c
+bsp_analyze.o: bsp_analyze.c
+bsp_info.o: bsp_info.c
+bsp_scale.o: bsp_scale.c
+bspfile_abstract.o: bspfile_abstract.c
+bspfile_ibsp.o: bspfile_ibsp.c
+bspfile_rbsp.o: bspfile_rbsp.c
+convert_ase.o: convert_ase.c
+convert_bsp.o: convert_bsp.c
+convert_map.o: convert_map.c
+convert_obj.o: convert_obj.c
+decals.o: decals.c
+exportents.o: exportents.c
+facebsp.o: facebsp.c
+fixaas.o: fixaas.c
+fog.o: fog.c
+help.o: help.c
+image.o: image.c
+leakfile.o: leakfile.c
+light.o: light.c
+light_bounce.o: light_bounce.c
+light_trace.o: light_trace.c
+light_ydnar.o: light_ydnar.c
+lightmaps_ydnar.o: lightmaps_ydnar.c
+main.o: main.c
+map.o: map.c
+mesh.o: mesh.c
+model.o: model.c
+patch.o: patch.c
+path_init.o: path_init.c
+portals.o: portals.c
+prtfile.o: prtfile.c
+shaders.o: shaders.c
+surface.o: surface.c
+surface_extra.o: surface_extra.c
+surface_foliage.o: surface_foliage.c
+surface_fur.o: surface_fur.c
+surface_meta.o: surface_meta.c
+tjunction.o: tjunction.c
+tree.o: tree.c
+vis.o: vis.c
+visflow.o: visflow.c
+writebsp.o: writebsp.c
