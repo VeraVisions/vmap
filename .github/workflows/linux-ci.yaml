@@ -1,0 +1,34 @@
+name: Linux CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: deps
+      run: |
+        sudo apt update
+        sudo apt install \
+        libglib2.0-dev \
+        libxml2-dev \
+        libjpeg8-dev \
+        libpng-dev \
+        libminizip-dev
+
+    - name: make
+      run: make
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: vmap-bin
+        path: vmap
