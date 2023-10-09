@@ -1,0 +1,51 @@
+name: Windows CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { icon: '🟦', sys: mingw64 }
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+
+    - name: 'checkout'
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: 'deps'
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: ${{matrix.sys}}
+        update: true
+        install: >-
+          git
+          make
+        pacboy: >-
+          toolchain:p
+          glib2
+          libxml2
+          libjpeg-turbo
+          libpng
+          minizip-git
+
+    - name: 'build'
+      run: |
+        make LDFLAGS="-lwsock32 -lws2_32"
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: vmap-win
+        path: vmap.exe
