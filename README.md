@@ -25,9 +25,9 @@ BSP: `./vmap [options] dm_foobar`
 VIS:  `./vmap [options] -vis dm_foobar`  
 LIGHT: `./vmap [options] -light dm_foobar`
 
-You want to pass `-fs_basepath /path/to/game/root` and `-game` arguments to specify where to read textures from. If you wanted to, for example, compile a map included within Nuclide's 'base' directory you'd end up with a command-line like this:
+You want to pass `-basedir /path/to/game/root` and `-game` arguments to specify where to read textures from. If you wanted to, for example, compile a map included within Nuclide's 'base' directory you'd end up with a command-line like this:
 
-`./vmap -fs_basepath /home/user/nuclide-sdk/ -game base test_sun`
+`./vmap -basedir "/home/user/nuclide-sdk/" -game "base" test_sun`
 
 ## Compiling
 To compile on a standard GNU/Linux system:

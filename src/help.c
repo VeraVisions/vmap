@@ -322,7 +322,7 @@ void HelpCommon()
 		{"-game <gamename>", "Sets a different game directory name (can be used more than once)"},
 		{"-connect <address>", "Talk to a WorldSpawn instance using a specific XML based protocol"},
 		{"-force", "Allow reading some broken/unsupported BSP files e.g. when decompiling, may also crash"},
-		{"-fs_basepath <path>", "Sets the given path as main directory of the game (can be used more than once to look in multiple paths)"},
+		{"-basedir <path>", "Sets the given path as main directory of the game (can be used more than once to look in multiple paths)"},
 		{"-fs_homebase <dir>", "Specifies where the user home directory name is on Linux (default for Q3A: .q3a)"},
 		{"-fs_homepath <path>", "Sets the given path as home directory name"},
 		{"-fs_nobasepath", "Do not load base paths in VFS, imply -fs_nomagicpath"},

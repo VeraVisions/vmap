@@ -472,7 +472,7 @@ void InitPaths( int *argc, char **argv ){
 		}
 
 		/* -fs_basepath */
-		else if ( strcmp( argv[ i ], "-fs_basepath" ) == 0 ) {
+		else if ( strcmp( argv[ i ], "-fs_basepath" ) == 0 || strcmp( argv[ i ], "-basedir" ) == 0 ) {
 			if ( ++i >= *argc ) {
 				Error( "Out of arguments: No path specified after %s.", argv[ i - 1 ] );
 			}
