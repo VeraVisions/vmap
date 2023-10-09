@@ -91,7 +91,7 @@ VMAP_OBJS = \
 
 # binary target
 ../vmap: $(VMAP_OBJS)
-	$(CXX) -o $@ $(VMAP_OBJS) $(LIBOBJS) $(VMAP_LDFLAGS)
+	$(CC) -o $@ $(VMAP_OBJS) $(LIBOBJS) $(VMAP_LDFLAGS)
 
 clean:
 	-rm -f ./../common/*.o
