@@ -405,8 +405,13 @@ void ParsePatch( qboolean onlyLights, qboolean fixedtess, qboolean extended ){
 	pm->brushNum = entitySourceBrushes;
 
 	/* set shader */
-	sprintf( shader, "textures/%s", texture );
-	pm->shaderInfo = ShaderInfoForShader( shader, 0 );
+	sprintf( shader, "texturesrc/%s", texture );
+	pm->shaderInfo = ShaderInfoForShader( shader, 3 );
+
+	if (!pm->shaderInfo) {
+		sprintf( shader, "textures/%s", name );
+		pm->shaderInfo = ShaderInfoForShader( shader, 0 );
+	}
 
 	/* set mesh */
 	pm->mesh = m;
