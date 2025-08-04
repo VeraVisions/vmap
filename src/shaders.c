@@ -955,6 +955,7 @@ shaderInfo_t *ShaderInfoForShader( const char *shaderName, int force ){
 	int val;
 	qboolean parsedContent;
 
+
 	/* init */
 	si = NULL;
 
@@ -967,14 +968,6 @@ shaderInfo_t *ShaderInfoForShader( const char *shaderName, int force ){
 	/* strip off extension */
 	strcpy( shader, shaderName );
 	StripExtension( shader );
-
-	if (force == 3) {
-		sprintf( filename, "%s.mat", shader );
-
-		if ( vfsGetFileCount(filename) == 0 ) {
-			return NULL;
-		}
-	}
 
 	/* force new allocation */
 	if (force == 0) {

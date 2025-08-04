@@ -1123,18 +1123,13 @@ static void ParseRawBrush( qboolean onlyLights ){
 		}
 
 		/* set default flags and values */
-		sprintf( shader, "texturesrc/%s", name );
+		sprintf( shader, "textures/%s", name );
 		if ( onlyLights ) {
 			si = &shaderInfo[ 0 ];
-		} else {
-			si = ShaderInfoForShader( shader, 3 );
-			
-			if (!si) {
-				sprintf( shader, "textures/%s", name );
-				si = ShaderInfoForShader( shader, 0 );
-			}
 		}
-
+		else{
+			si = ShaderInfoForShader( shader, 0 );
+		}
 		side->shaderInfo = si;
 		side->surfaceFlags = si->surfaceFlags;
 		side->contentFlags = si->contentFlags;
